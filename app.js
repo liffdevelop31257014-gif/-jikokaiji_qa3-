@@ -271,7 +271,8 @@ function collectFormData() {
     q9Detail: document.getElementById("q9Detail").value,
     q10:      q10Radio ? q10Radio.value : "",
     q11:      q11Radio ? q11Radio.value : "",
-    q12:       document.getElementById("q12").value,
+    q12:      document.getElementById("q12").value,
+    q13:      document.getElementById("q13").value,
   };
 }
 
@@ -293,7 +294,8 @@ function restoreFormData(data) {
   setText("q3",     data.q3);
   setText("q7",     data.q7);
   setText("q8",     data.q8);
-　setText("q12",     data.q12);
+  setText("q12",    data.q12);
+  setText("q13",    data.q13);
 
   restoreRankingGroup("q4Ranking", data.q4);
   restoreRankingGroup("q6Ranking", data.q6);
@@ -350,7 +352,8 @@ function validate(data) {
 
   if (!data.q10) errors.push("Q10: 回答を選択してください。");
   if (!data.q11) errors.push("Q11: 回答を選択してください。");
-　if (!data.q12.trim())          errors.push("Q12: 夫婦や家族のなかで守っていきたいルール、家訓を入力してください。");
+  if (!data.q12.trim()) errors.push("Q12: 意見が食い違ったときどうしたいかを入力してください。");
+  if (!data.q13.trim()) errors.push("Q13: 夫婦や家族のなかで守っていきたいルール、家訓を入力してください。");
 
   return errors;
 }
@@ -385,6 +388,7 @@ function buildAnalyticsPayload(data) {
     q10:    Q10_LABELS[data.q10] || "",
     q11:    Q11_LABELS[data.q11] || "",
     q12:    data.q12 || "",
+    q13:    data.q13 || "",
   };
 }
 
@@ -556,7 +560,8 @@ function renderViewMode(data, options = {}) {
       html: q9AnswerHTML(data) },
     { q: "Q10 習い事に興味がない息子にどうしますか？", a: q10Labels[data.q10] || "未回答" },
     { q: "Q11 塾の迎えに行けない日、どうしますか？",  a: q11Labels[data.q11] || "未回答" },
-    { q: "Q12 夫婦や家族のなかで守っていきたいルール、家訓はありますか？",  a: data.q12 || "未回答" },
+    { q: "Q12 意見が食い違ったときはどうしたいですか？",  a: data.q12 || "未回答" },
+    { q: "Q13 夫婦や家族のなかで守っていきたいルール、家訓はありますか？",  a: data.q13 || "未回答" },
   ];
 
   hideFormElements();
@@ -647,7 +652,7 @@ function renderViewMode(data, options = {}) {
      画像は1MB以下を推奨。PNGの透過部分はそのまま送ると
      反映されない場合があるため、白背景に合成したJPEGを使用する。
    ------------------------------------------------------------ */
-const HEADER_IMAGE_URL = "https://liffdevelop31257014-gif.github.io/-jikokaiji_qa3-/image_message.jpg";
+const HEADER_IMAGE_URL = "https://marriagesketch.github.io/-jikokaiji_qa3-/image_message.jpg";
 
 function buildShareFlexMessage(shareName, shareURL) {
   const nameLine = shareName ? `${shareName}さんの回答が届きました` : "回答が届きました";
@@ -803,7 +808,7 @@ async function checkFriendship() {
   document.getElementById("clearBtn").addEventListener("click", () => {
     if (!confirm("入力内容をすべてクリアしますか？")) return;
 
-    ["q1good","q1bad","q2good","q2bad","q3","q7","q8","q9Detail","q12"].forEach(id => {
+    ["q1good","q1bad","q2good","q2bad","q3","q7","q8","q9Detail","q12","q13"].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = "";
     });
